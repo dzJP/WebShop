@@ -1,15 +1,25 @@
 <template>
-	<LandingPage />
+    <router-view />
 </template>
 
 <script>
-import LandingPage from './views/LandingPage.vue';
+import { RouterView } from 'vue-router';
+import { useAuthStore } from './stores/auth';
+import { computed } from 'vue';
 
 export default {
 	name: 'App',
 	components: {
-		LandingPage
+		RouterView,
 	},
+	setup() {
+        const authStore = useAuthStore();
+        const isAuthenticated = computed(() => !!authStore.token);
 
-}
+        return {
+            isAuthenticated,
+        };
+    }
+};
 </script>
+

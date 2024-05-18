@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import router from "@/router";
 import axios from "axios";
 import { useUserStore } from "./user";
 
@@ -15,8 +16,15 @@ export const useAuthStore = defineStore({
             try {
                 const response = await axios.post(
                     "http://localhost:8080/api/v1/signin",
-                    { email, password },
-                    { headers: { "Content-Type": "application/json" } }
+                    {
+                        email,
+                        password,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
                 );
 
                 console.log(response.status);
@@ -33,6 +41,15 @@ export const useAuthStore = defineStore({
                     this.token = token;
                     this.role = role;
 
+                    if (role === "ROLE_ADMIN") {
+                        if (this.role === "ROLE_ADMIN") {
+                            router.push("/admin");
+                        } else {
+                            console.error("User does not have access to the admin panel.");
+                        }
+                    } else {
+                        router.push(this.returnUrl || "/");
+                    }
                     console.log("Logged-in user role:", this.role);
                 }
             } catch (error) {
@@ -43,12 +60,23 @@ export const useAuthStore = defineStore({
             try {
                 const response = await axios.post(
                     "http://localhost:8080/api/v1/register",
-                    { email, firstName, lastName, password, phoneNumber, birthDate },
-                    { headers: { "Content-Type": "application/json" } }
+                    {
+                        email,
+                        firstName,
+                        lastName,
+                        password,
+                        phoneNumber,
+                        birthDate,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
                 );
 
                 if (response.status === 200) {
-                    console.log("Registration successful.");
+                    router.push("/login");
                 }
             } catch (error) {
                 console.error("Registration failed:", error);
@@ -64,6 +92,7 @@ export const useAuthStore = defineStore({
             localStorage.removeItem("user");
             localStorage.removeItem("token");
             localStorage.removeItem("role");
+            router.push("/login");
         },
         checkUserRole() {
             console.log("Logged-in user role:", this.role);
