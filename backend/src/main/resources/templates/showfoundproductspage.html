@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each="product: ${productList}">
+    Product name: <span th:text="${product.name}"></span>
+    <p>
+    Product category: <span th:text="${product.category}"></span>
+    </p>
+    <p>
+    Product price: <span th:text="${product.price}"></span>
+    </p>
+</div>
+</body>
+<p>
+    <a href="/shop-products">Return to the shop</a>
+</p>
+<p>
+    <a href="/">Back to main menu</a>
+</p>
+</html>

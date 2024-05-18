@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Webshop</title>
+</head>
+<h1>Produkter</h1>
+<body>
+<h2>These are the current products in the store</h2></br>
+<div th:each="product : ${productList}">
+  <span th:text="${product.name}"></span>
+  <span th:text="${product.price}"></span>
+  <span th:text="${product.category}"></span>
+  <form action="/shop-products" method="post">
+    <input type="hidden" name="id" th:value="${product.id}">
+    Amount:<input type="text" name="amount" value="1">
+    <input type="submit" value="Add">
+  </form>
+</div>
+
+<p>
+  <h3><a href="/showcart">Show cart</a></br></h3>
+</p>
+<p>
+<a  href="/newproduct">Create your own product</a>
+</p>
+<p>
+  <a href="/">Back to login page</a>
+</p>
+</body>
+</html>
