@@ -1,62 +1,35 @@
-package com.example.webshoplabb.shop;
+package com.example.webshoplabb.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
-@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity(name = "product")
 public class Product {
     @Id
     @GeneratedValue
     private Long id;
 
-    private String name;
+    @Column(name = "product")
+    private String product;
+
+    @Column(name = "price")
     private double price;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
-    public Product() {
-    }
-
-    public Product(String name, double price, Category category) {
-        this.category = category;
-        this.name = name;
+    public Product(String product, double price, Category category) {
+        this.product = product;
         this.price = price;
-    }
-
-    public Product(Long id, String name, double price, Category category) {
-        this.category = category;
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
         this.category = category;
     }
+
 }
