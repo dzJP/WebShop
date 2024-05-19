@@ -3,11 +3,12 @@
         <button class="create-product-button" @click="toggleFormVisibility">Create Product</button>
         <div v-if="isFormVisible" class="create-product">
             <i class="toggle-products bi bi-x" @click="toggleFormVisibility"></i>
-                <form @submit.prevent="createProduct">
-                    <label>Product</label>
-                    <input v-model="newProduct.product" type="text" required>
-                    <label>Price</label>
-                    <input v-model="newProduct.price" type="text" required>
+            <form @submit.prevent="createProduct">
+                <label>Product</label>
+                <input v-model="newProduct.name" type="text" required>
+                <!-- Change "product" to "productName" -->
+                <label>Price</label>
+                <input v-model="newProduct.price" type="text" required>
                 <button type="submit" class="create-product-button">Create Product</button>
             </form>
         </div>
@@ -20,9 +21,8 @@ import { useAuthStore } from '@/stores/auth';
 import { useProductStore } from '@/stores/product';
 
 const productStore = useProductStore();
-const newProduct = ref({ product: '', price: ''});
+const newProduct = ref({ productName: '', price: '' }); // Change "product" to "productName"
 const isFormVisible = ref(false);
-
 
 const { emit } = getCurrentInstance();
 const authStore = useAuthStore();
@@ -44,7 +44,7 @@ const createProduct = async () => {
         // await productStore.getAllCategories();
 
         emit('product-created');
-        newProduct.value = { productName: '' };
+        newProduct.value = { productName: '', price: '' }; // Reset the form fields
     } catch (error) {
         console.error('Error creating product:', error);
     }
@@ -54,8 +54,9 @@ const createProduct = async () => {
         userRole,
         isFormVisible,
         toggleFormVisibility,
-    };
+    }
 };
+
 
 </script>
 

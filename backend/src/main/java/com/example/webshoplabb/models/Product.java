@@ -16,8 +16,8 @@ public class Product {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "product")
-    private String product;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "price")
     private double price;
@@ -26,8 +26,8 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Product(String product, double price, Category category) {
-        this.product = product;
+    public Product(String name, double price, Category category) {
+        this.name = name;
         this.price = price;
         this.category = category;
     }
