@@ -19,6 +19,7 @@ import java.util.List;
 @Table(name = "users")
 public class User implements UserDetails {
 
+
     @NotBlank
     @Id
     @Column(unique = true)
@@ -39,15 +40,6 @@ public class User implements UserDetails {
     private Role role;
 
     private Boolean isActive = false;
-
-    String profilePictureUrl;
-
-    /*@ToString.Exclude
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<TimeRegister> timeRegisters;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<MonthlyTimeRegister> monthlyTimeRegisters;*/
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,6 +1,5 @@
 package com.example.webshoplabb.repository;
 
-import com.example.webshoplabb.models.Category;
 import com.example.webshoplabb.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

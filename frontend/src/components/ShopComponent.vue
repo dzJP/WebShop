@@ -10,7 +10,13 @@
                     <h2>{{ product.name }}</h2>
                     <p>{{ product.description }}</p>
                     <p>${{ product.price }}</p>
+                    <button @click="addToCart(product)">Add to Cart</button>
                 </div>
+            </div>
+            <div class="cart-summary">
+                <p>Number of items in cart: {{ cart.getTotalItems() }}</p>
+                <p>Total cost: ${{ cart.getTotalPrice() }}</p>
+                <button @click="checkout">Checkout</button>
             </div>
         </div>
     </div>
@@ -19,6 +25,7 @@
 <script>
 import { defineComponent, ref, onMounted } from 'vue';
 import { useProductStore } from '@/stores/product';
+import { useCartStore } from '@/stores/cart';
 
 export default defineComponent({
     name: 'ShopComponent',
@@ -26,16 +33,21 @@ export default defineComponent({
         const productStore = useProductStore();
         const loading = ref(true);
         const error = ref(null);
+        const cart = useCartStore();
 
         const fetchProducts = async () => {
             try {
                 const response = await productStore.getAllProducts();
-                console.log('Products fetched:', response.data); // Add this line to log response data
+                console.log('Products fetched:', response.data);
             } catch (err) {
                 error.value = 'Failed to load products: ' + err.message;
             } finally {
                 loading.value = false;
             }
+        };
+
+        const addToCart = (product) => {
+            cart.addToCart(product);
         };
 
         onMounted(() => {
@@ -46,6 +58,8 @@ export default defineComponent({
             products: productStore.productList,
             loading,
             error,
+            cart,
+            addToCart,
         };
     },
 });
@@ -66,5 +80,11 @@ export default defineComponent({
 
 .error {
     color: red;
+}
+
+.cart-summary {
+    margin-top: 20px;
+    border-top: 2px solid #ccc;
+    padding-top: 10px;
 }
 </style>

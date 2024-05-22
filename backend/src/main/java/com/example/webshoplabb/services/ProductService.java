@@ -1,6 +1,5 @@
 package com.example.webshoplabb.services;
 
-import com.example.webshoplabb.dto.CategoryDTO;
 import com.example.webshoplabb.dto.ProductDTO;
 import com.example.webshoplabb.models.Product;
 import com.example.webshoplabb.repository.ProductRepository;
@@ -20,9 +19,9 @@ public class ProductService {
 
     public void createProduct(ProductDTO productDTO) {
         Product product = new Product(
+                productDTO.getId(),
                 productDTO.getName(),
-                productDTO.getPrice(),
-                productDTO.getCategory()
+                productDTO.getPrice()
         );
         productRepository.save(product);
 
@@ -38,7 +37,6 @@ public class ProductService {
                     productDTO.setId(product.getId());
                     productDTO.setName(product.getName());
                     productDTO.setPrice(product.getPrice());
-                    productDTO.setCategory(product.getCategory());
 
                     return productDTO;
                 })

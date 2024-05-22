@@ -132,7 +132,7 @@ public class UserService implements CommandLineRunner {
 
             if (user != null) {
                 return new UserProfileDTO(user.getEmail(), user.getFirstName(),
-                        user.getLastName(), user.getPhoneNumber(), user.getBirthDate(), user.getRole(), user.getProfilePictureUrl());
+                        user.getLastName(), user.getPhoneNumber(), user.getBirthDate(), user.getRole());
             } else {
                 throw new RuntimeException("User not found");
             }
@@ -213,8 +213,7 @@ public class UserService implements CommandLineRunner {
 
     public List<UserProfileDTO> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(user -> new UserProfileDTO(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getBirthDate(), user.getRole(),
-                user.getProfilePictureUrl()))
+                .map(user -> new UserProfileDTO(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getBirthDate(), user.getRole()))
                 .collect(Collectors.toList());
     }
 

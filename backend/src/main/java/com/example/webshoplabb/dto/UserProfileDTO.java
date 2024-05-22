@@ -19,5 +19,4 @@ public class UserProfileDTO {
     private String phoneNumber;
     private LocalDate birthDate;
     private Role role;
-    String profilePictureUrl;
 }

@@ -1,8 +1,6 @@
 package com.example.webshoplabb.controllers;
 
-import com.example.webshoplabb.dto.CategoryDTO;
 import com.example.webshoplabb.dto.ProductDTO;
-import com.example.webshoplabb.services.CategoryService;
 import com.example.webshoplabb.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     @Autowired
-    private final CategoryService categoryService;
-
-    @Autowired
     private final ProductService productService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/create-category")
-    public ResponseEntity<String> createCategory(@RequestBody CategoryDTO categoryDTO) {
-        try {
-            categoryService.createCategory(categoryDTO);
-            return ResponseEntity.ok("Category created successfully");
-        } catch (Exception error) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Error creating category." + error.getMessage());
-        }
-    }
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create-product")
     public ResponseEntity<String> createProduct(@RequestBody ProductDTO productDTO) {
