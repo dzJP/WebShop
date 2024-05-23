@@ -16,7 +16,6 @@
             <div class="cart-summary">
                 <p>Number of items in cart: {{ cart.getTotalItems() }}</p>
                 <p>Total cost: ${{ cart.getTotalPrice() }}</p>
-                <button @click="checkout">Checkout</button>
             </div>
         </div>
     </div>

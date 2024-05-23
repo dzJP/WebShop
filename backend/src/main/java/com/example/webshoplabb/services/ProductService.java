@@ -42,4 +42,17 @@ public class ProductService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public Product getProductById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
+    }
+
+    private ProductDTO mapProductToDTO(Product product) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(product.getId());
+        productDTO.setName(product.getName());
+        productDTO.setPrice(product.getPrice());
+        return productDTO;
+    }
 }

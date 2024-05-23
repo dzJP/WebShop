@@ -216,6 +216,10 @@ public class UserService implements CommandLineRunner {
                 .map(user -> new UserProfileDTO(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getBirthDate(), user.getRole()))
                 .collect(Collectors.toList());
     }
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
 
     public void editUser(UserProfileDTO request) {
         User user = userRepository.findByEmail(request.getEmail());
