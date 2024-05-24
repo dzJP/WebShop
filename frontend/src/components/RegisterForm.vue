@@ -3,40 +3,36 @@
         <div class="registration-form">
             <form @submit.prevent="onSubmit">
                 <h4>Register</h4>
-                <div class="form-group mb-3">
+                <div class="form-group">
                     <input type="email" class="form-control" id="email" v-model="user.email" placeholder="email" />
                 </div>
 
-                <div class="form-group mb-3">
+                <div class="form-group">
                     <input type="firstName" class="form-control" id="firstName" v-model="user.firstName"
                         placeholder="first name" />
                 </div>
 
-                <div class="form-group mb-3">
+                <div class="form-group">
                     <input type="lastName" class="form-control" id="lastName" v-model="user.lastName"
                         placeholder="last name" />
                 </div>
 
-                <div class="form-group mb-3">
+                <div class="form-group">
                     <input type="date" class="form-control" id="birthdate" v-model="user.birthDate" />
                 </div>
 
-                <div class="form-group mb-3">
+                <div class="form-group">
                     <input type="password" class="form-control" id="password" v-model="user.password"
                         placeholder="password" />
                 </div>
 
-                <div class="form-group mb-3">
+                <div class="form-group">
                     <input type="phoneNumber" class="form-control" id="phoneNumber" v-model="user.phoneNumber"
                         placeholder="phone number" />
                 </div>
 
-                <button type="submit" class="register-btn btn btn-primary">Sign up</button>
+                <button type="submit" class="register-button">Register</button>
             </form>
-        </div>
-        <div v-if="showPopup" class="popup">
-            <p>{{ popupMessage }}</p>
-            <button @click="closePopup">Close</button>
         </div>
     </div>
 </template>
@@ -88,9 +84,6 @@ function resetForm() {
 
 }
 
-function closePopup() {
-    showPopup.value = false;
-}
 
 export default {
     name: 'RegistrationForm',
@@ -100,20 +93,58 @@ export default {
             onSubmit,
             showPopup,
             popupMessage,
-            closePopup,
         };
     },
 };
 </script>
 <style scoped>
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f7f7f7;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h4 {
+        display: flex;
+        justify-content: center;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1em;
+    }
+
+    .register-button {
+        margin-left: 8.75em;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 0.9em;
+        cursor: pointer;
+        font-family: 'Oxanium', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .register-button:hover {
+        background-color: #0056b3;
+    }
+
+
+
 </style>
