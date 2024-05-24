@@ -25,9 +25,6 @@
                 </div>
             </div>
 
-            <!-- <div v-if="showRegisterPopup || showPopup" class="overlay" @click="closePopup"></div> -->
-
-
             <div v-if="showRegisterPopup" class="registerPopup">
                 <i class="register-close" @click="closeRegisterPopup">X</i>
                 <RegisterForm />
@@ -106,15 +103,6 @@ export default {
 </script>
 
 <style scoped>
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(126, 126, 126, 0.5);
-    backdrop-filter: blur(5px);
-}
 .login-container {
     position: absolute;
     top: 35%;
@@ -185,8 +173,8 @@ form {
 
 .actions-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    gap: 10em;
     width: 100%;
     margin-top: 5px;
 }
