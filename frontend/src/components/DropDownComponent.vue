@@ -1,78 +1,29 @@
 <template>
-    <div class="dropdown">
-        <button class="dropdown-button" @click="toggleDropdown">{{ selectedOption }}</button>
-        <ul v-if="isOpen" class="dropdown-list">
-            <li v-for="option in options" :key="option" @click="handleSelection(option)">
-                {{ option }}
-            </li>
-        </ul>
+    <div>
+        <label for="component-select">Select Component:</label>
+        <select id="component-select" v-model="selectedComponent">
+            <option v-for="component in availableComponents" :key="component.name" :value="component.name">{{ component.displayName }}</option>
+        </select>
+        <component :is="selectedComponentComponent" v-if="selectedComponentComponent"></component>
     </div>
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, computed } from 'vue';
+import CreateProduct from './CreateProduct.vue';
+import EditProduct from './EditProduct.vue';
+import DeleteProduct from './DeleteProduct.vue';
 
-const options = ["Create Product", "Load Products", "Edit Products", "Delete Products"];
-const selectedOption = ref('Select an option');
-const isOpen = ref(false);
+const availableComponents = [
+    { name: 'CreateProduct', displayName: 'Create Product', component: CreateProduct },
+    { name: 'EditProduct', displayName: 'Edit Product', component: EditProduct },
+    { name: 'DeleteProduct', displayName: 'Delete Product', component: DeleteProduct },
+];
 
-const emit = defineEmits(['option-selected']);
+const selectedComponent = ref(null);
 
-const toggleDropdown = () => {
-    isOpen.value = !isOpen.value;
-};
-
-const handleSelection = (option) => {
-    selectedOption.value = option;
-    isOpen.value = false;
-    emit('option-selected', option);
-};
+const selectedComponentComponent = computed(() => {
+    const component = availableComponents.find(c => c.name === selectedComponent.value);
+    return component ? component.component : null;
+});
 </script>
-
-<style>
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.dropdown-button:hover {
-    background-color: #0056b3;
-}
-
-.dropdown-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 5px;
-    width: 100%;
-    z-index: 1000;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.dropdown-list li {
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.dropdown-list li:hover {
-    background-color: #f0f0f0;
-}
-</style>

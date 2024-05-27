@@ -18,4 +18,8 @@ public class Product {
 
     @Column(name = "price", nullable = false)
     private double price;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false)
+    private Category category;
 }
