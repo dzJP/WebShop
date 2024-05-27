@@ -62,36 +62,35 @@ export const useProductStore = defineStore({
         },
         setEditingProduct(productItem) {
             this.editingProduct = productItem;
-        }
-    },
-    async deleteProduct(productId) {
-        try {
-            if (!productId) {
-                console.error('Invalid productId:', productId);
-                return;
+        },
+        async deleteProduct(productId) {
+            try {
+                if (!productId) {
+                    console.error('Invalid productId:', productId);
+                    return;
+                }
+
+                const authStore = useAuthStore();
+                const token = authStore.token;
+
+                const response = await axios.delete(`http://localhost:8080/api/v1/delete-product`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    params: {
+                        id: productId
+                    },
+                });
+
+                await this.getAllProducts();
+
+                console.log('Delete product response:', response);
+
+                return response.data;
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                throw error;
             }
-
-            const authStore = useAuthStore();
-            const token = authStore.token;
-
-            const response = await axios.delete(`http://localhost:8080/api/v1/delete-product`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                params: {
-                    id: productId
-                },
-            });
-
-            await this.getAllProducts();
-
-            console.log('Delete product response:', response);
-
-            return response;
-        } catch (error) {
-            console.error('Error deleting product:', error);
-            throw error;
-        }
+        },
     },
 });
-
