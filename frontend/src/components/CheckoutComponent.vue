@@ -4,19 +4,19 @@
         <div v-if="cartItems.length === 0">Your cart is empty</div>
         <div v-else>
             <h2>Cart Items</h2>
-        <div v-for="item in cartItems" :key="item.id" class="cart-item">
-            <p>{{ item.name }}</p>
-            <p>Price: ${{ item.price }}</p>
-            <p>Quantity: {{ item.quantity }}</p>
-            <button @click="removeFromCart(item)">Remove</button>
+            <div v-for="item in cartItems" :key="item.id" class="cart-item">
+                <p>{{ item.name }}</p>
+                <p>Price: ${{ item.price }}</p>
+                <p>Quantity: {{ item.quantity }}</p>
+                <button @click="removeFromCart(item)">Remove</button>
+            </div>
+            <div class="cart-summary">
+                <p>Total items: {{ totalItems }}</p>
+                <p>Total price: ${{ totalPrice }}</p>
+                <button @click="placeOrder" :disabled="placingOrder">Place Order</button>
+                <span v-if="placingOrder">Placing order...</span>
+            </div>
         </div>
-        <div class="cart-summary">
-            <p>Total items: {{ totalItems }}</p>
-            <p>Total price: ${{ totalPrice }}</p>
-            <button @click="placeOrder" :disabled="placingOrder">Place Order</button>
-            <span v-if="placingOrder">Placing order...</span>
-        </div>
-    </div>
     </div>
 </template>
 
@@ -50,19 +50,19 @@ const placeOrder = async () => {
             quantity: item.quantity,
             price: item.price
         }));
-        
+
         const response = await axios.post('http://localhost:8080/api/v1/orders/checkout',
-        orderItems, // Directly passing the array of order items
-        {
-            params: { email: email }
-        }
-    );
-    console.log('Order placed successfully:', response.data);
-    cart.clearCart();
-} catch (error) {
-    console.error('Error placing order:', error);
-} finally {
-    placingOrder.value = false;
+            orderItems, // Directly passing the array of order items
+            {
+                params: { email: email }
+            }
+        );
+        console.log('Order placed successfully:', response.data);
+        cart.clearCart();
+    } catch (error) {
+        console.error('Error placing order:', error);
+    } finally {
+        placingOrder.value = false;
     }
 };
 </script>
@@ -71,7 +71,7 @@ const placeOrder = async () => {
 .cart-item {
     border: 1px solid #ccc;
     padding: 16px;
-margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 
 .cart-summary {

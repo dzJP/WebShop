@@ -1,17 +1,17 @@
 <template>
-    <div>
+    <div class="shop">
         <h1>Shop</h1>
-        <div v-if="loading">Loading products...</div>
+        <div v-if="loading" class="loading">Loading products...</div>
         <div v-else>
             <div v-if="error" class="error">{{ error }}</div>
-            <div v-if="products.length === 0">No products available</div>
+            <div v-if="products.length === 0" class="empty">No products available</div>
             <div v-else class="product-list">
                 <div v-for="product in products" :key="product.id" class="product">
                     <h2>{{ product.name }}</h2>
                     <p>{{ product.description }}</p>
-                    <p>${{ product.price }}</p>
-                    <p>{{ product.category }}</p>
-                    <button @click="addToCart(product)">Add to Cart</button>
+                    <p class="price">${{ product.price }}</p>
+                    <p class="category">{{ product.category }}</p>
+                    <button @click="addToCart(product)" class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="cart-summary">
@@ -64,27 +64,64 @@ export default defineComponent({
     },
 });
 </script>
-
 <style scoped>
-.product-list {
-    display: flex;
-    flex-wrap: wrap;
+.shop {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.product {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin: 16px;
-    width: 200px;
+.loading {
+    margin-top: 20px;
+    font-style: italic;
 }
 
 .error {
+    margin-top: 20px;
     color: red;
+}
+
+.empty {
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.product {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.product h2 {
+    margin-top: 0;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.category {
+    font-style: italic;
+}
+
+.add-to-cart {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .cart-summary {
     margin-top: 20px;
-    border-top: 2px solid #ccc;
-    padding-top: 10px;
+    background-color: #007bff;
 }
+
 </style>

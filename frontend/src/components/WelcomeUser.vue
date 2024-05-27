@@ -28,13 +28,13 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 100px auto 0;
+    margin: 10px auto 0;
     color: var(--white);
     width: 980px;
 }
 
 .welcome-container h1 {
-    font-size: 32px;
+    font-size: 3em;
     font-weight: bold;
 
 }
