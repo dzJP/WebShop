@@ -112,17 +112,19 @@ const decreaseQuantity = (item) => {
 }
 
 .shopping-cart-image {
-    width: 100px;
+    width: 40px;
 }
-
+.shopping-cart-image:hover {
+    cursor: pointer;
+}
 .cart-badge {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    background-color: red;
+    top: -8px;
+    right: -8px;
+    background-color: #ff5f6d; /* Coral pink */
     color: white;
     border-radius: 50%;
-    padding: 5px 8px;
+    padding: 4px 8px; /* Increased padding */
     font-size: 12px;
 }
 
@@ -132,7 +134,7 @@ const decreaseQuantity = (item) => {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
     z-index: 999;
     display: flex;
     justify-content: center;
@@ -140,16 +142,31 @@ const decreaseQuantity = (item) => {
 }
 
 .cart-items {
-    background-color: white;
+    background-color: #fff;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
 }
 
 .cart-item {
-    margin-bottom: 10px;
+    margin-bottom: 20px; /* Increased margin between items */
+    padding-bottom: 20px; /* Increased padding between items */
+    border-bottom: 1px solid #eee;
 }
 
 .cart-item-details button {
     margin-left: 10px;
+    cursor: pointer;
+    padding: 8px 16px; /* Increased button padding */
+    border: none;
+    border-radius: 5px; /* Slightly larger border radius */
+    background-color: #4caf50; /* Green */
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.cart-item-details button:hover {
+    background-color: #388e3c; /* Darker green on hover */
 }
 </style>
