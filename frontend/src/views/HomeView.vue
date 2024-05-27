@@ -1,7 +1,7 @@
 <template>
 	<WelcomeUser />
-	<ShopComponent />
 	<CheckoutComponent />
+	<ShopComponent />
 </template>
 
 <script>
@@ -12,8 +12,9 @@ import CheckoutComponent from '@/components/CheckoutComponent.vue';
 export default {
 	components: {
 		WelcomeUser,
+		CheckoutComponent,
 		ShopComponent,
-		CheckoutComponent
+
 	}
 }
 </script>

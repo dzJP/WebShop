@@ -4,17 +4,31 @@
         <div v-if="cartItems.length === 0">Your cart is empty</div>
         <div v-else>
             <h2>Cart Items</h2>
-            <div v-for="item in cartItems" :key="item.id" class="cart-item">
-                <p>{{ item.name }}</p>
-                <p>Price: ${{ item.price }}</p>
-                <p>Quantity: {{ item.quantity }}</p>
-                <button @click="removeFromCart(item)">Remove</button>
+            <div class="shopping-cart-container" @click="openCartPopup">
+                <img src="@/assets/shoppingcart.png" alt="Shopping Cart" class="shopping-cart-image">
+                <div class="cart-badge">{{ totalItems }}</div>
             </div>
             <div class="cart-summary">
                 <p>Total items: {{ totalItems }}</p>
                 <p>Total price: ${{ totalPrice }}</p>
                 <button @click="placeOrder" :disabled="placingOrder">Place Order</button>
                 <span v-if="placingOrder">Placing order...</span>
+            </div>
+            <div v-if="showCartPopup" class="cart-popup" @click="closeCartPopup">
+                <div class="cart-items">
+                    <div v-for="item in cartItems" :key="item.id" class="cart-item">
+                        <div class="cart-item-details">
+                            <p>{{ item.name }}</p>
+                            <p>Price: ${{ item.price }}</p>
+                            <div>
+                                <button @click.stop="decreaseQuantity(item)">-</button>
+                                <span>{{ item.quantity }}</span>
+                                <button @click.stop="increaseQuantity(item)">+</button>
+                                <button @click.stop="removeFromCart(item)">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -30,13 +44,7 @@ const cartItems = computed(() => cart.items);
 const totalItems = computed(() => cart.getTotalItems());
 const totalPrice = computed(() => cart.getTotalPrice());
 const placingOrder = ref(false);
-
-const removeFromCart = (item) => {
-    const index = cart.items.indexOf(item);
-    if (index > -1) {
-        cart.removeFromCart(index);
-    }
-};
+const showCartPopup = ref(false);
 
 const placeOrder = async () => {
     try {
@@ -52,7 +60,7 @@ const placeOrder = async () => {
         }));
 
         const response = await axios.post('http://localhost:8080/api/v1/orders/checkout',
-            orderItems, // Directly passing the array of order items
+            orderItems,
             {
                 params: { email: email }
             }
@@ -60,23 +68,88 @@ const placeOrder = async () => {
         console.log('Order placed successfully:', response.data);
         cart.clearCart();
     } catch (error) {
-        console.error('Error placing order:', error);
+        if (error.response) {
+            console.error('Server error:', error.response.data);
+        } else if (error.request) {
+            console.error('Network error:', error.message);
+        } else {
+            console.error('Error:', error.message);
+        }
     } finally {
         placingOrder.value = false;
     }
 };
+
+const openCartPopup = () => {
+    showCartPopup.value = true;
+};
+const closeCartPopup = () => {
+    showCartPopup.value = false;
+};
+const removeFromCart = (item) => {
+    const index = cart.items.indexOf(item);
+    if (index > -1) {
+        cart.removeFromCart(index);
+    }
+};
+
+const increaseQuantity = (item) => {
+    item.quantity++;
+};
+
+const decreaseQuantity = (item) => {
+    if (item.quantity > 1) {
+        item.quantity--;
+    }
+};
+
 </script>
 
 <style scoped>
-.cart-item {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin-bottom: 16px;
+.shopping-cart-container {
+    position: relative;
+    display: inline-block;
 }
 
-.cart-summary {
-    margin-top: 20px;
-    border-top: 2px solid #ccc;
-    padding-top: 10px;
+.shopping-cart-image {
+    width: 100px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+.cart-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart-items {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.cart-item {
+    margin-bottom: 10px;
+}
+
+.cart-item-details button {
+    margin-left: 10px;
 }
 </style>
