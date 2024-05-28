@@ -1,10 +1,30 @@
 :root {
     --dark-blue: #040B24;
+    --darker-blue: #020613;
+    --dark-green: #122912;
+
+    --light-gray: rgb(31, 36, 45);
+    --lighter-gray: rgb(25, 29, 36);
+    --lightest-gray: rgb(50, 57, 70);
+
+    --gray-black: rgb(31, 31, 31);
+    --dark-gray-black: rgb(24, 24, 24);
+    --darker-gray-black: rgb(12, 12, 12);
+    --darkest-gray-black: rgb(5, 5, 5);
+    --light-gray-black: rgb(40, 40, 40);
+
     --blue: #111C44;
     --light-blue: #2525A5;
     --light-blue-hover: #2d2dc7;
+    --blue-heaven: rgb(88, 178, 255);
+    --blue-heaven-hover: rgb(137, 200, 255);
+    --blue-sky: rgb(58, 163, 255);
+    --blue-sky-hover: rgb(88, 177, 255);
+
     --red: #df3232;
     --orange: #E69141;
+    --orange-hover: #ffac5e;
+    --dark-orange: #e6914110;
     --white: #FFFFFF;
     --black: #030B23;
     --gray: #878787;
@@ -19,7 +39,7 @@
 }
 
 #app, html {
-    background-color: var(--gray);
+    background-color: var(--lightest-gray);
 }
 
 h1, h2, h3, h4, h5, h6 {
