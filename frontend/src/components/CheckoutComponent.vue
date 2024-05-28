@@ -60,18 +60,13 @@ const placeOrder = async () => {
 
 <style scoped>
 .checkout-container {
-    display: flex;
-    flex-direction:column;
-    align-items: flex-end;
-    padding: 20px;
-}
-
-.cart-summary {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    flex: 0 0 10%;
+    padding: 10px;
+    margin: 5.3em 20px;
+    text-align: center;
     background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 .place-order-button {

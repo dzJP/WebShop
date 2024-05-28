@@ -74,11 +74,12 @@ onMounted(async () => {
     align-items: center;
     color: var(--white);
     background-color: var(--lighter-gray);
-    padding: 10px 20px;
+    border-bottom: solid 1px var(--orange);
+    padding: 15px 30px;
 }
 
 .header-container h1 {
-    font-size: 2.5em;
+    font-size: 2.3em;
     font-weight: bold;
 }
 
