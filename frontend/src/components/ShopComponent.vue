@@ -1,15 +1,14 @@
 <template>
     <div class="shop-container">
         <div class="shop">
-            <h1 class="heading">
-                <span>Shop</span>
-            </h1>
+            <h1 class="heading"><span>Shop</span></h1>
+            <CategoryComponent :categories="categories" @filter-category="filterByCategory" />
             <div v-if="loading" class="loading">Loading products...</div>
             <div v-else>
                 <div v-if="error" class="error">{{ error }}</div>
-                <div v-if="products.length === 0" class="empty">No products available</div>
+                <div v-if="filteredProducts.length === 0" class="empty">No products available</div>
                 <div class="product-container">
-                    <div v-for="product in products" :key="product.id" class="product">
+                    <div v-for="product in filteredProducts" :key="product.id" class="product">
                         <h2>{{ product.name }}</h2>
                         <p class="price">${{ product.price }}</p>
                         <p class="category">{{ product.category }}</p>
@@ -23,26 +22,30 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useProductStore } from '@/stores/product';
+import { useCategoryStore } from '@/stores/category';
 import { useCartStore } from '@/stores/cart';
 import CheckoutComponent from '@/components/CheckoutComponent.vue';
+import CategoryComponent from '@/components/CategoryComponent.vue';
 
 export default defineComponent({
     name: 'ShopComponent',
     components: {
         CheckoutComponent,
+        CategoryComponent,
     },
     setup() {
         const productStore = useProductStore();
+        const categoryStore = useCategoryStore();
+        const cart = useCartStore();
         const loading = ref(true);
         const error = ref(null);
-        const cart = useCartStore();
+        const selectedCategory = ref('');
 
         const fetchProducts = async () => {
             try {
-                const response = await productStore.getAllProducts();
-                console.log('Products fetched:', response.data);
+                await productStore.getAllProducts();
             } catch (err) {
                 error.value = 'Failed to load products: ' + err.message;
             } finally {
@@ -50,20 +53,45 @@ export default defineComponent({
             }
         };
 
+        const fetchCategories = async () => {
+            try {
+                await categoryStore.getAllCategories();
+                console.log('Categories:', categoryStore.categoryList);
+            } catch (err) {
+                console.error('Failed to load categories: ', err);
+            }
+        };
+
         const addToCart = (product) => {
             cart.addToCart(product);
         };
 
+        const filterByCategory = (categoryName) => {
+            selectedCategory.value = categoryName;
+        };
+
+        const filteredProducts = computed(() => {
+            if (!selectedCategory.value) {
+                return productStore.productList;
+            } else {
+                return productStore.productList.filter(product => product.category === selectedCategory.value);
+            }
+        });
+
         onMounted(() => {
             fetchProducts();
+            fetchCategories();
         });
 
         return {
             products: productStore.productList,
+            categories: categoryStore.categoryList,
             loading,
             error,
             cart,
             addToCart,
+            filterByCategory,
+            filteredProducts,
         };
     },
 });
@@ -75,6 +103,7 @@ export default defineComponent({
     margin: 20px;
     color: var(--white);
 }
+
 .shop-container {
     display: flex;
     justify-content: space-between;

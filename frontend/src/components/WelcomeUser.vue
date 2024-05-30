@@ -160,6 +160,7 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     gap: 10px;
+    color: var(--black);
 }
 
 .quantity-button {
