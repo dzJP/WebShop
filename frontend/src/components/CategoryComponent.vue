@@ -1,6 +1,5 @@
 <template>
     <div class="category-filter">
-        <h2>Filter by Category</h2>
         <select v-model="selectedCategory" @change="filterProducts">
             <option value="">All Categories</option>
             <option v-for="category in categories" :key="category.name" :value="category.name">{{ category.name }}</option>
@@ -32,7 +31,7 @@ export default {
 
 <style scoped>
 .category-filter {
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 select {

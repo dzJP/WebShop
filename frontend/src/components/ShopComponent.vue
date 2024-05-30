@@ -1,7 +1,9 @@
 <template>
     <div class="shop-container">
         <div class="shop">
-            <h1 class="heading"><span>Shop</span></h1>
+            <h1 class="heading">
+                <span>Shop</span>
+            </h1>
             <CategoryComponent :categories="categories" @filter-category="filterByCategory" />
             <div v-if="loading" class="loading">Loading products...</div>
             <div v-else>
@@ -133,12 +135,15 @@ export default defineComponent({
 
 .product h2 {
     margin-top: 0;
-    font-size: 1.7em;
+    font-size: 1.3em;
+    letter-spacing: 1px;
 }
 
 .price {
     font-weight: bold;
     margin-bottom: 10px;
+    font-size: 1.1em;
+    color: green;
 }
 
 .category {
@@ -152,8 +157,8 @@ export default defineComponent({
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 6px 12px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
