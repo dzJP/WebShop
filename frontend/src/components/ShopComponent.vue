@@ -189,4 +189,6 @@ export default defineComponent({
 .add-to-cart:hover {
     background-color: #0056b3;
 }
+
+
 </style>

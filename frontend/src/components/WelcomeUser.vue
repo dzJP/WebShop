@@ -183,7 +183,7 @@ onMounted(async () => {
     border: none;
     border-radius: 5px;
     background-color: #4caf50;
-    color: white;
+    color: var(--white);
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -209,6 +209,7 @@ onMounted(async () => {
 .item-quantity {
     font-size: 16px;
     font-weight: bold;
+    color: var(--black);
 }
 
 .quantity-controls button {
