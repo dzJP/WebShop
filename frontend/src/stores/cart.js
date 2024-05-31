@@ -10,9 +10,19 @@ export const useCartStore = defineStore({
             const existingItem = this.items.find(item => item.id === product.id);
 
             if (existingItem) {
-                existingItem.quantity++;
+                this.incrementItem(existingItem);
             } else {
                 this.items.push({ ...product, quantity: 1 });
+            }
+        },
+        incrementItem(item) {
+            item.quantity++;
+        },
+        decrementItem(item) {
+            if (item.quantity > 1) {
+                item.quantity--;
+            } else {
+                this.removeFromCart(this.items.indexOf(item));
             }
         },
         removeFromCart(index) {
@@ -23,6 +33,9 @@ export const useCartStore = defineStore({
         },
         getTotalPrice() {
             return this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+        },
+        clearCart() {
+            this.items = [];
         },
     },
 });

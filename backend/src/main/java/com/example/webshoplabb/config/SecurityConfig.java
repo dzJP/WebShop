@@ -70,8 +70,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll().
-                        anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
+                        .requestMatchers("/static/**").permitAll()
+                        .requestMatchers("/*.png").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

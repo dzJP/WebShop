@@ -1,19 +1,11 @@
 <template>
-    <div>
-        <h1>Checkout</h1>
+    <div class="checkout-container">
         <div v-if="cartItems.length === 0">Your cart is empty</div>
         <div v-else>
-            <h2>Cart Items</h2>
-            <div v-for="item in cartItems" :key="item.id" class="cart-item">
-                <p>{{ item.name }}</p>
-                <p>Price: ${{ item.price }}</p>
-                <p>Quantity: {{ item.quantity }}</p>
-                <button @click="removeFromCart(item)">Remove</button>
-            </div>
             <div class="cart-summary">
                 <p>Total items: {{ totalItems }}</p>
                 <p>Total price: ${{ totalPrice }}</p>
-                <button @click="placeOrder" :disabled="placingOrder">Place Order</button>
+                <button @click="placeOrder" :disabled="placingOrder" class="place-order-button">Place Order</button>
                 <span v-if="placingOrder">Placing order...</span>
             </div>
         </div>
@@ -31,18 +23,10 @@ const totalItems = computed(() => cart.getTotalItems());
 const totalPrice = computed(() => cart.getTotalPrice());
 const placingOrder = ref(false);
 
-const removeFromCart = (item) => {
-    const index = cart.items.indexOf(item);
-    if (index > -1) {
-        cart.removeFromCart(index);
-    }
-};
-
 const placeOrder = async () => {
     try {
         placingOrder.value = true;
         const email = localStorage.getItem('user');
-
         console.log("Cart Items:", cartItems.value);
 
         const orderItems = cartItems.value.map(item => ({
@@ -52,7 +36,7 @@ const placeOrder = async () => {
         }));
 
         const response = await axios.post('http://localhost:8080/api/v1/orders/checkout',
-            orderItems, // Directly passing the array of order items
+            orderItems,
             {
                 params: { email: email }
             }
@@ -60,23 +44,47 @@ const placeOrder = async () => {
         console.log('Order placed successfully:', response.data);
         cart.clearCart();
     } catch (error) {
-        console.error('Error placing order:', error);
+        if (error.response) {
+            console.error('Server error:', error.response.data);
+        } else if (error.request) {
+            console.error('Network error:', error.message);
+        } else {
+            console.error('Error:', error.message);
+        }
     } finally {
         placingOrder.value = false;
     }
 };
+
 </script>
 
 <style scoped>
-.cart-item {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin-bottom: 16px;
+.checkout-container {
+    flex: 0 0 10%;
+    padding: 10px;
+    margin: 5em 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
-.cart-summary {
-    margin-top: 20px;
-    border-top: 2px solid #ccc;
-    padding-top: 10px;
+.place-order-button {
+    background-color: #ff5f6d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.place-order-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.place-order-button:hover:not(:disabled) {
+    background-color: #e04a57;
 }
 </style>
