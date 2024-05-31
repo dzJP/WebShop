@@ -62,7 +62,7 @@ const placeOrder = async () => {
 .checkout-container {
     flex: 0 0 10%;
     padding: 10px;
-    margin: 5.3em 20px;
+    margin: 5em 20px;
     text-align: center;
     background-color: #f9f9f9;
     border: 1px solid #ddd;

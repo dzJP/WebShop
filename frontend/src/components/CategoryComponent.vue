@@ -55,7 +55,7 @@ export default {
     background-color: #f8f9fa;
     border-radius: 8px;
     font-family: 'Oxanium', sans-serif;
-    margin: 20px;
+    margin: 5em 20px;
 }
 
 .category-list h2 {
