@@ -7,22 +7,28 @@
         </div>
         <div v-if="showCartPopup" class="cart-popup" @click="closeCartPopup">
             <div class="cart-items" @click.stop>
-                <div v-for="item in cartItems" :key="item.id" class="cart-item">
-                    <div class="cart-item-details">
-                        <p class="item-name">{{ item.name }}</p>
-                        <p class="item-price">Price: ${{ item.price }}</p>
-                        <div class="quantity-controls">
-                            <button @click.stop="decreaseQuantity(item)" class="quantity-button">-</button>
-                            <span class="item-quantity">{{ item.quantity }}</span>
-                            <button @click.stop="increaseQuantity(item)" class="quantity-button">+</button>
-                            <button @click.stop="removeFromCart(item)" class="remove-button">Remove</button>
+                <template v-if="cartItems.length > 0">
+                    <div v-for="item in cartItems" :key="item.id" class="cart-item">
+                        <div class="cart-item-details">
+                            <p class="item-name">{{ item.name }}</p>
+                            <p class="item-price">Price: ${{ item.price }}</p>
+                            <div class="quantity-controls">
+                                <button @click.stop="decreaseQuantity(item)" class="quantity-button">-</button>
+                                <span class="item-quantity">{{ item.quantity }}</span>
+                                <button @click.stop="increaseQuantity(item)" class="quantity-button">+</button>
+                                <button @click.stop="removeFromCart(item)" class="remove-button">Remove</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </template>
+                <template v-else>
+                    <p class="empty-cart-message">You have no items in your cart.</p>
+                </template>
             </div>
         </div>
     </div>
 </template>
+
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
@@ -107,7 +113,12 @@ onMounted(async () => {
     font-size: 12px;
 }
 
+.empty-cart-message {
+    color: var(--black);
+}
+
 .cart-popup {
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
@@ -115,17 +126,21 @@ onMounted(async () => {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 999;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .cart-items {
-    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .cart-item {
@@ -147,6 +162,7 @@ onMounted(async () => {
 }
 
 .item-name {
+    color: #333;
     font-weight: bold;
     font-size: 16px;
 }
@@ -160,11 +176,10 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: var(--black);
 }
 
 .quantity-button {
-    padding: 8px;
+    padding: 8px 12px;
     border: none;
     border-radius: 5px;
     background-color: #4caf50;
@@ -193,6 +208,11 @@ onMounted(async () => {
 
 .item-quantity {
     font-size: 16px;
+    font-weight: bold;
+}
+
+.quantity-controls button {
+    font-size: 14px;
     font-weight: bold;
 }
 </style>

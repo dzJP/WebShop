@@ -22,4 +22,8 @@ public class Product {
     @Enumerated(EnumType.STRING)
     @Column(name = "category", nullable = false)
     private Category category;
+
+    @Column(name = "image", nullable = false)
+    private String image;
+
 }

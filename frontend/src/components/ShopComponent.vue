@@ -1,19 +1,20 @@
 <template>
     <div class="shop-container">
+        <CategoryComponent :categories="categories" @filter-category="filterByCategory" />
         <div class="shop">
             <h1 class="heading">
                 <span>Shop</span>
             </h1>
-            <CategoryComponent :categories="categories" @filter-category="filterByCategory" />
             <div v-if="loading" class="loading">Loading products...</div>
             <div v-else>
                 <div v-if="error" class="error">{{ error }}</div>
                 <div v-if="filteredProducts.length === 0" class="empty">No products available</div>
                 <div class="product-container">
                     <div v-for="product in filteredProducts" :key="product.id" class="product">
+                        <img :src="getProductImageUrl(product.image)" alt="Product Image" class="product-image">
                         <h2>{{ product.name }}</h2>
-                        <p class="price">${{ product.price }}</p>
                         <p class="category">{{ product.category }}</p>
+                        <p class="price">${{ product.price }}</p>
                         <button @click="addToCart(product)" class="add-to-cart">Add to Cart</button>
                     </div>
                 </div>
@@ -58,7 +59,6 @@ export default defineComponent({
         const fetchCategories = async () => {
             try {
                 await categoryStore.getAllCategories();
-                console.log('Categories:', categoryStore.categoryList);
             } catch (err) {
                 console.error('Failed to load categories: ', err);
             }
@@ -80,6 +80,11 @@ export default defineComponent({
             }
         });
 
+        const getProductImageUrl = (imageName) => {
+            const backendUrl = 'http://localhost:8080';
+            return `${backendUrl}/${imageName}`;
+        };
+
         onMounted(() => {
             fetchProducts();
             fetchCategories();
@@ -94,6 +99,7 @@ export default defineComponent({
             addToCart,
             filterByCategory,
             filteredProducts,
+            getProductImageUrl,
         };
     },
 });
@@ -103,76 +109,84 @@ export default defineComponent({
 .heading {
     text-align: center;
     margin: 20px;
-    color: var(--white);
+    color: #333;
 }
 
 .shop-container {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f1f1f1;
 }
 
 .shop {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .product-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+    gap: 20px;
+    justify-content: flex-start;
 }
 
 .product {
-    flex: 0 0 calc(25% - 100px);
-    border: 2px solid var(--lightest-grayest);
+    flex: 0 0 calc(25% - 20px);
+    border: 1px solid #ddd;
+    border-radius: 8px;
     padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    background-color: var(--light-gray);
-    color: var(--white);
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .product h2 {
-    margin-top: 0;
-    font-size: 1.3em;
-    letter-spacing: 1px;
+    font-size: 1.2em;
+    margin: 10px 0;
+    text-align: center;
 }
 
 .price {
-    font-weight: bold;
-    margin-bottom: 10px;
     font-size: 1.1em;
     color: green;
+    font-weight: bold;
+    margin: 5px 0;
 }
 
 .category {
-    font-style: italic;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: var(--purple-variance);
+    font-size: 0.9em;
+    color: #555;
+    margin: 5px 0;
 }
 
 .add-to-cart {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 6px 10px;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-align: center;
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
 .add-to-cart:hover {
     background-color: #0056b3;
-}
-
-.checkout-container button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.checkout-container button:hover:not(:disabled) {
-    background-color: #e04a57;
 }
 </style>
