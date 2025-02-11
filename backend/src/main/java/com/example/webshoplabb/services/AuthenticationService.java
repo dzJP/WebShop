@@ -39,6 +39,7 @@ public class AuthenticationService {
         if (user != null) {
             // Generate a JWT token for the authenticated user.
             String jwt = jwtService.generateToken(user);
+            System.out.println("Generated JWT: " + jwt);  // ✅ Log the token
 
             // Retrieve the user's role from the User entity.
             Role role = user.getRole();

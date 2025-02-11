@@ -21,6 +21,7 @@
             </div>
         </div>
         <CheckoutComponent />
+        <AuthButtonComponent />
     </div>
 </template>
 
@@ -31,12 +32,14 @@ import { useCategoryStore } from '@/stores/category';
 import { useCartStore } from '@/stores/cart';
 import CheckoutComponent from '@/components/CheckoutComponent.vue';
 import CategoryComponent from '@/components/CategoryComponent.vue';
+import AuthButtonComponent from '@/components/AuthButtonComponent.vue';
 
 export default defineComponent({
     name: 'ShopComponent',
     components: {
         CheckoutComponent,
         CategoryComponent,
+        AuthButtonComponent,
     },
     setup() {
         const productStore = useProductStore();

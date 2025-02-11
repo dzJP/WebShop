@@ -60,20 +60,22 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors
-                        .configurationSource(corsConfigurationSource())
+                        .configurationSource(corsConfigurationSource()) // Enable CORS
                 )
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
-                        .requestMatchers("/static/**").permitAll()
-                        .requestMatchers("/*.png").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/bankid/authenticate").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/bankid/status").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()  // Allow POST requests for all API endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()   // Allow GET requests for all API endpoints
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()   // Allow PUT requests for all API endpoints
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll() // Allow DELETE requests for all API endpoints
+                        .requestMatchers("/static/**").permitAll()  // Allow access to static resources
+                        .requestMatchers("/*.png").permitAll()   // Allow image access
+                        .anyRequest().authenticated()  // Require authentication for any other request
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -84,14 +86,11 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedMethods(List.of("*"));
-//        configuration.setAllowedOrigins(List.of("http://localhost:8081"));
-//        configuration.setAllowedMethods(List.of("GET", "POST","PUT", "DELETE", "PATCH"));
-//        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-CSRF-Token"));
+        configuration.setAllowedOrigins(List.of("*"));  // Allow all origins
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));  // Allow common HTTP methods
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-CSRF-Token"));  // Allow necessary headers
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);  // Apply CORS configuration to all paths
         return source;
     }
 

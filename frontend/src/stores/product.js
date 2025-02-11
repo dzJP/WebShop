@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { useAuthStore } from './auth';
+import defaultProductImage from '@/assets/placeholder.png';
 
 export const useProductStore = defineStore({
     id: 'product',
@@ -12,6 +13,10 @@ export const useProductStore = defineStore({
             try {
                 const authStore = useAuthStore();
                 const token = authStore.token;
+
+                if (!productData.image) {
+                    productData.image = defaultProductImage;
+                }
 
                 const response = await axios.post('http://localhost:8080/api/v1/create-product', productData, {
                     headers: {

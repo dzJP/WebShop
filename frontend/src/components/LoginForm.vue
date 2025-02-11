@@ -59,8 +59,8 @@ export default {
         const showRegisterPopup = ref(false);
 
         const user = reactive({
-            email: '',
-            password: '',
+            email: 'user1@user.com',
+            password: 'password',
         });
 
         function onSubmit() {
